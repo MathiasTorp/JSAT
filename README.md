@@ -1,59 +1,83 @@
-# Java Statistical Analysis Tool
+# QQMusicApi
 
-<a href='https://travis-ci.org/EdwardRaff/JSAT/builds'><img src='https://travis-ci.org/EdwardRaff/JSAT.svg?branch=master'></a>
+[![NPM](https://img.shields.io/npm/v/qq-music-api.svg)](https://www.npmjs.com/package/qq-music-api)
+[![github](https://img.shields.io/badge/github-QQMusicApi-brightgreen.svg)](https://github.com/jsososo/QQMusicApi)
+[![GitHub Pages Star](https://img.shields.io/github/stars/jsososo/QQMusicApi.svg)](https://github.com/jsososo/QQMusicApi)
 
 
-JSAT is a library for quickly getting started with Machine Learning problems. It is developed in my free time, and made available for use under the GPL 3. Part of the library is for self education, as such - all code is self contained. JSAT has no external dependencies, and is pure Java. I also aim to make the library suitably fast for small to medium size problems. As such, much of the code supports parallel execution.
+接口参考：
 
-The current master branch of JSAT is going through a larger refactoring as JSAT moves to Java 8. This may cause some examples to break if used against the head version, but they should be fixible with minimal changes.
+[接口文档 Github](https://jsososo.github.io/QQMusicApi/#/)
 
-## Get JSAT
+[接口文档 Vercel](https://qq-api-soso.vercel.app/)
 
-Ther current release of JSAT is version 0.0.9, and supports Java 6. The current master branch is now Java 8+. 
 
-You can download JSAT from maven central, add the below to your pom file
+## 快速上手
 
-```xml
-<dependencies>
-  <dependency>
-    <groupId>com.edwardraff</groupId>
-    <artifactId>JSAT</artifactId>
-    <version>0.0.9</version>
-  </dependency>
-</dependencies>
+### Node 服务
+
+```shell script
+git clone git@github.com:jsososo/QQMusicApi.git
+
+yarn
+
+yarn start
 ```
 
-If you want to use the bleeding edge, but don't want to bother building yourself, I recommend you look at [jitpack.io](https://jitpack.io/#EdwardRaff/JSAT). It can build a POM repo for you for any specific commit version. Click on "Commits" in the link and then click "get it" for the commit version you want. 
+### Docker
 
-If you want to read the javadoc's online, you can find them hosted [on my website here](http://www.edwardraff.com/jsat_docs/JSAT-0.0.8-javadoc/). 
+```shell script
+yarn build:docker
 
-## Why use JSAT? 
-
-For research and specialized needs, JSAT has one of the largest collections of algorithms available in any framework. See an incomplete list [here](https://github.com/EdwardRaff/JSAT/wiki/Algorithms). 
-
-Additional, there are unfortunately not as many ML tools for Java as there are for other languages. Compared to Weka, JSAT is [usually faster](http://jsatml.blogspot.com/2015/03/jsat-vs-weka-on-mnist.html). 
-
-If you want to use JSAT and the GPL is not something that will work for you, let me know and we can discuss the issue.
-
-See the [wiki](https://github.com/EdwardRaff/JSAT/wiki) for more information as well as some examples on how to use JSAT. 
-
-## Note
-
-Updates to JSAT may be slowed as I begin a PhD program in Computer Science. The project isn’t abandoned! I just have limited free time, and will be balancing my PhD work with a full time job. If you discover more hours in the day, please let me know! Development will be further slowed due to some health issues. I'll continue to try and be prompt on any bug reports and emails, but new features will be a bit slower. Please use the github issues first for contact. 
-
-## Citations
-
-If you use JSAT and find it helpful, citations are appreciated! Please cite the [JSAT paper](http://www.jmlr.org/papers/v18/16-131.html) published at JMLR. If you're feeling a little lazy, the bibtex is below:
-
+yarn start:docker
 ```
-@article{JMLR:v18:16-131,
-author = {Raff, Edward},
-journal = {Journal of Machine Learning Research},
-number = {23},
-pages = {1--5},
-title = {JSAT: Java Statistical Analysis Tool, a Library for Machine Learning},
-url = {http://jmlr.org/papers/v18/16-131.html},
-volume = {18},
-year = {2017}
-}
+
+
+### npm
+
+```shell script
+yarn add qq-music-api
 ```
+
+#### 接口调用
+
+```javascript
+const qqMusic = require('qq-music-api');
+
+// 部分接口依赖 cookie, 这里穿参可以使用字符串或对象
+qqMusic.setCookie('xxx=xxx; xxx=xxx;');
+// or
+qqMusic.setCookie({ a: 'xxx', b: 'xxx' });
+
+qqMusic.api('search', { key: '周杰伦' })
+    .then(res => console.log(res))
+    .catch(err => console.log('接口调用出错'))
+
+qqMusic.api('search', { key: '周杰伦' })
+    .then((res) => console.log('搜索周杰伦：', res))
+    .catch(err => console.log('接口调用出错'))
+
+qqMusic.api('search/hot')
+    .then((res) => console.log('热搜词：', res))
+    .catch(err => console.log('接口调用出错'))//
+
+// 刷新登陆
+qqMusic.api('user/refresh')
+```
+
+#### 获取当前cookie
+
+```javascript
+const qqMusic = require('qq-music-api');
+
+console.log(qqMusic.cookie);
+```
+
+#### 获取当前 cookie 用户
+```javascript
+const qqMusic = require('qq-music-api');
+
+console.log(qqMusic.uin);
+```
+
+
